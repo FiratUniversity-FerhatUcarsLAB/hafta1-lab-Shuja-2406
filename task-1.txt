@@ -1,4 +1,85 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 240541608
+AD-SOYAD: Shuja Ahmad Tariq
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+Selected Algorothm "En kısa s¨urede ¨universiteye gitme algoritması"
+ALGORITMA Universiteye_Gitme
+    BASLA
+        // 1. Hazırlık aşaması
+        Konum ← "Ev"
+        Hedef ← "Üniversite"
+        Saat ← SistemSaatiOku()
+        
+        GerekliEşyalar ← ["Çanta", "Telefon", "Anahtar", "Kart"]
+        HER esya İÇİN GerekliEşyalar:
+            EĞER esya_unutuldu_mu(esya) ISE
+                esya_al(esya)
+            SON
+        
+        // 2. Ulaşım seçeneklerini listele
+        Secenekler ← ["Otobüs", "Metro", "Yürüyerek", "Araba", "Taksi"]
+
+        // 3. Her seçenek için süre tahmini al
+        EnKısaSure ← Sonsuz
+        EnIyiSecenek ← NULL
+        HER secenek İÇİN Secenekler:
+            Sure ← Tahmini_Sure(secenek, Konum, Hedef, Saat)
+            
+            EĞER Sure < EnKısaSure ISE
+                EnKısaSure ← Sure
+                EnIyiSecenek ← secenek
+            SON
+        SON
+
+        // 4. Seçilen yönteme göre ilerle
+        YONTEM ← EnIyiSecenek
+
+        EĞER YONTEM = "Otobüs" ISE
+            Durak ← EnYakinDurakBul(Konum)
+            Yürü(Durak)
+            BEKLE otobus_gelene_kadar
+            Bin("Otobüs")
+            Tekrarla:
+                Konum ← SonrakiDurak()
+            DURDUR Konum = "Üniversite Durağı"
+            In("Otobüs")
+            Yürü(Üniversite)
+        
+        DEĞİLSE EĞER YONTEM = "Metro" ISE
+            Istasyon ← EnYakinIstasyonBul(Konum)
+            Yürü(Istasyon)
+            BEKLE metro_gelene_kadar
+            Bin("Metro")
+            Tekrarla:
+                Konum ← SonrakiIstasyon()
+            DURDUR Konum = "Üniversite Istasyonu"
+            In("Metro")
+            Yürü(Üniversite)
+        
+        DEĞİLSE EĞER YONTEM = "Araba" ISE
+            ParkYeri ← BosParkYeriBul(Üniversite)
+            Trafik ← TrafikYoğunlugu(Saat, Güzergah)
+            EĞER Trafik = "ÇokYoğun" ISE
+                YONTEM ← AlternatifSecenekBul()
+            DEĞİLSE
+                Sur(Konum, Üniversite, Trafik)
+                ParkEt(ParkYeri)
+            SON
+        
+        DEĞİLSE EĞER YONTEM = "Taksi" ISE
+            TaksiCagir()
+            Bin("Taksi")
+            SurTaksi(Üniversite)
+            In("Taksi")
+        
+        DEĞİLSE EĞER YONTEM = "Yürüyerek" ISE
+            Yürü(Üniversite)
+        SON
+
+        // 5. Varış kontrolü
+        EĞER Konum = "Üniversite" ISE
+            YAZ "Üniversiteye en kısa sürede ulaşıldı!"
+        DEĞİLSE
+            YAZ "Bir hata oluştu, tekrar dene."
+        SON
+    BITIR
