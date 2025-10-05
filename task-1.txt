@@ -6,7 +6,7 @@ Selected Algorothm "En kısa s¨urede ¨universiteye gitme algoritması"
 ALGORITMA Universiteye_Gitme
     BASLA
         // 1. Hazırlık aşaması
-        Konum ← "Ev"
+        Konum ← "Yurt"
         Hedef ← "Üniversite"
         Saat ← SistemSaatiOku()
         
