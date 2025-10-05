@@ -1,4 +1,62 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 240541608
+AD-SOYAD: Shuja Ahmad Tariq
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+selected algorithm: "K¨ut¨uphanede kitap arama sistemi"
+
+ALGORITMA Kutuphane_Kitap_Arama
+    BASLA
+        // 1. Kitap listesini al
+        Kitaplar ← KütüphaneVeritabanindanAl()
+
+        // 2. Kullanıcıdan arama kriteri al
+        Kriter ← KullanıcıdanAl("Kitap Adı / Yazar / ISBN")
+        ArananDeger ← KullanıcıdanAl("Aranacak değer giriniz: ")
+
+        // 3. Kitapları kriter bazında sıralama
+        EĞER Kriter = "Kitap Adı" ISE
+            Kitaplar ← QuickSort(Kitaplar, "Ad")
+        DEĞİLSE EĞER Kriter = "Yazar" ISE
+            Kitaplar ← QuickSort(Kitaplar, "Yazar")
+        DEĞİLSE EĞER Kriter = "ISBN" ISE
+            Kitaplar ← QuickSort(Kitaplar, "ISBN")
+        SON
+
+        // 4. İkili arama ile kitabı bul
+        Konum ← BinarySearch(Kitaplar, ArananDeger, Kriter)
+
+        // 5. Sonucu göster
+        EĞER Konum ≠ -1 ISE
+            YAZ "Kitap bulundu: " + Kitaplar[Konum]
+        DEĞİLSE
+            YAZ "Aradığınız kitap bulunamadı."
+        SON
+    BITIR
+
+
+// ------------------- SIRALAMA -------------------
+FONKSIYON QuickSort(Liste, Anahtar):
+    EĞER Liste uzunluk ≤ 1 ISE
+        DÖNDÜR Liste
+    Pivot ← Liste[0]
+    Sol ← [x ∈ Liste | x[Anahtar] < Pivot[Anahtar]]
+    Sag ← [x ∈ Liste | x[Anahtar] > Pivot[Anahtar]]
+    Orta ← [x ∈ Liste | x[Anahtar] = Pivot[Anahtar]]
+    DÖNDÜR QuickSort(Sol, Anahtar) + Orta + QuickSort(Sag, Anahtar)
+
+
+FONKSIYON BinarySearch(Liste, ArananDeger, Anahtar):
+    Sol ← 0
+    Sag ← Liste.uzunluk - 1
+    
+    TEKRARLA Sol ≤ Sag İKEN
+        Orta ← (Sol + Sag) / 2
+        EĞER Liste[Orta][Anahtar] = ArananDeger ISE
+            DÖNDÜR Orta
+        EĞER Liste[Orta][Anahtar] < ArananDeger ISE
+            Sol ← Orta + 1
+        DEĞİLSE
+            Sag ← Orta - 1
+        SON
+    SON
+    DÖNDÜR -1   // bulunamadı
