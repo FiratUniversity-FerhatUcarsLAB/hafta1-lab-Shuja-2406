@@ -1,4 +1,52 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 240541608
+AD-SOYAD: Shuja Ahmad Tariq
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+selected algorithm: "G¨unl¨uk hayatınızı kolayla¸stıracak bir ¸c¨oz¨um bulun"
+
+ALGORITMA Gunluk_Asistan
+    BASLA
+        // 1. Başlangıç – Günlük hedefleri topla
+        Hedefler ← KullanıcıdanAl("Bugün yapmak istediğin şeyler nedir?")
+        Oncelikler ← KullanıcıdanAl("Öncelik seviyelerini gir (yüksek, orta, düşük)")
+
+        // 2. Görevleri kategorilere ayır
+        Kategoriler ← {"İş", "Okul", "Kişisel", "Alışveriş", "Sağlık"}
+        HER hedef İÇİN Hedefler:
+            kategori ← KullanıcıdanAl("Bu hedef hangi kategoriye ait?")
+            Ata(hedef, kategori)
+        SON
+
+        // 3. Görevleri öncelik ve zamana göre sıralama
+        SiraliListe ← Sirala(Hedefler, Oncelik + TahminiSüre)
+
+        // 4. Zaman planı oluştur
+        GunlukTakvim ← BosTakvim()
+        MevcutSaat ← SistemSaati()
+
+        HER görev İÇİN SiraliListe:
+            UygunZaman ← TakvimdeBosSaatBul(GunlukTakvim, görev.TahminiSüre)
+            Planla(GunlukTakvim, görev, UygunZaman)
+        SON
+
+        // 5. Uyarı ve hatırlatma sistemi
+        HER görev İÇİN GunlukTakvim:
+            GörevZamani ← görev.Zaman
+            HatirlaticiKur(GörevZamani - 10 dk, "Göreve başla: " + görev.Ad)
+        SON
+
+        // 6. Gün içinde takip
+        TEKRARLA GÜN BOYUNCA
+            EĞER GörevTamamlandi ISE
+                İsaretle("Tamamlandı")
+            DEĞİLSE EĞER GörevGecikti ISE
+                YAZ "Görev ertelendi, yeni zaman aranıyor..."
+                YenidenPlanla(GunlukTakvim)
+            SON
+        SON
+
+        // 7. Gün sonunda değerlendirme
+        Tamamlanan ← Say(Gorevler, "Tamamlandı")
+        Tamamlanmayan ← Say(Gorevler, "Bekliyor")
+        YAZ "Bugün " + Tamamlanan + " görev tamamlandı, " + Tamamlanmayan + " görev ertelendi."
+    BITIR
