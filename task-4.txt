@@ -1,4 +1,69 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 240541608
+AD-SOYAD: Shuja Ahmad Tariq
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+selected algorithm: "Lego ile belirli ¸sekil yapma planı"
+
+ALGORITMA Lego_Sekil_Yapma
+    BASLA
+        // 1. Hedef şekli tanımla
+        Sekil ← KullanıcıdanAl("Yapmak istediğin Lego şekli nedir?")
+        ParcaListesi ← SekliTanimla(Sekil)   // gerekli parçaların listesi
+
+        // 2. Şekli ana bileşenlerine böl
+        AnaBolumler ← Bol(Sekil)
+
+        // 3. Her bir bölüm için alt inşa işlemi
+        HER bolum İÇİN AnaBolumler:
+            AltParcalar ← Bol(bolum)
+
+            // Alt parçaları inşa et
+            HER parca İÇİN AltParcalar:
+                Yap(parca)
+            SON
+
+            // Alt parçaları birleştirerek bölüm oluştur
+            bolumObjesi ← Birlestir(AltParcalar)
+
+            Kaydet(bolumObjesi)
+        SON
+
+        // 4. Ana bölümleri birleştir
+        YapilmisSekil ← Birlestir(AnaBolumler)
+
+        // 5. Kontrol aşaması
+        EĞER YapilmisSekil = Sekil ISE
+            YAZ "Hedef Lego şekli başarıyla yapıldı!"
+        DEĞİLSE
+            YAZ "Eksik veya yanlış parça var, düzeltme gerekiyor."
+        SON
+    BITIR
+
+
+
+// ------------------ ALT FONKSİYONLAR ------------------
+
+// Şekli bileşenlere bölme (Divide)
+FONKSIYON Bol(Obj):
+    EĞER Obj çok küçük ise
+        DÖNDÜR [Obj]
+    DEĞİLSE
+        AltKisim1 ← Obj’un yarısı
+        AltKisim2 ← Obj’un diğer yarısı
+        DÖNDÜR [AltKisim1, AltKisim2]
+    SON
+
+
+// Parça yapma (Base Case)
+FONKSIYON Yap(Parca):
+    LegoParcalariniAl(Parca)
+    MontajYap(Parca)
+
+
+// Birleştirme (Conquer)
+FONKSIYON Birlestir(Liste):
+    Nesne ← Bos
+    HER item İÇİN Liste:
+        Nesne ← Nesne + item
+    SON
+    DÖNDÜR Nesne
