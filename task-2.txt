@@ -1,4 +1,89 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 240541608
+AD-SOYAD: Shuja Ahmad Tariq
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+selected algorithm: "Tic-Tac-Toe’da kazanma stratejisi"
+ALGORITMA TicTacToe_Kazanma_Stratejisi
+    BASLA
+        Tahta ← 3x3 boş matris
+        Oyuncular ← {X, O}
+        MevcutOyuncu ← X  // Oyuna X başlar
+
+        // Ana oyun döngüsü
+        TEKRARLA
+            EĞER MevcutOyuncu = Bilgisayar ISE
+                Hamle ← EnIyiHamleBul(Tahta, MevcutOyuncu)
+            DEĞİLSE
+                Hamle ← KullanıcıdanAl()
+            SON
+            
+            Tahta[Hamle] ← MevcutOyuncu
+
+            EĞER KazananVarMi(Tahta, MevcutOyuncu) ISE
+                YAZ MevcutOyuncu + " kazandı!"
+                BITIR
+            SON
+
+            EĞER TahtaDoluMu(Tahta) ISE
+                YAZ "Berabere!"
+                BITIR
+            SON
+
+            // Sıra değiştir
+            MevcutOyuncu ← DigerOyuncu(MevcutOyuncu)
+        SON
+    BITIR
+
+
+FONKSIYON EnIyiHamleBul(Tahta, Oyuncu):
+    // Minimax algoritması uygulanır
+    EnIyiDeger ← -∞
+    EnIyiHamle ← NULL
+
+    HER hucre İÇİN Tahta:
+        EĞER hucre boş ISE
+            Tahta[hucre] ← Oyuncu
+            Deger ← Minimax(Tahta, false)
+            Tahta[hucre] ← boş
+
+            EĞER Deger > EnIyiDeger ISE
+                EnIyiDeger ← Deger
+                EnIyiHamle ← hucre
+            SON
+        SON
+    SON
+    DÖNDÜR EnIyiHamle
+
+
+FONKSIYON Minimax(Tahta, IsMaximizing):
+    EĞER KazananVarMi(Tahta, X) ISE
+        DÖNDÜR +1
+    EĞER KazananVarMi(Tahta, O) ISE
+        DÖNDÜR -1
+    EĞER TahtaDoluMu(Tahta) ISE
+        DÖNDÜR 0
+
+    EĞER IsMaximizing ISE
+        EnDeger ← -∞
+        HER hucre İÇİN Tahta:
+            EĞER hucre boş ISE
+                Tahta[hucre] ← X
+                Deger ← Minimax(Tahta, false)
+                Tahta[hucre] ← boş
+                EnDeger ← max(EnDeger, Deger)
+            SON
+        SON
+        DÖNDÜR EnDeger
+    DEĞİLSE
+        EnDeger ← +∞
+        HER hucre İÇİN Tahta:
+            EĞER hucre boş ISE
+                Tahta[hucre] ← O
+                Deger ← Minimax(Tahta, true)
+                Tahta[hucre] ← boş
+                EnDeger ← min(EnDeger, Deger)
+            SON
+        SON
+        DÖNDÜR EnDeger
+    SON
+
